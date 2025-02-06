@@ -4,7 +4,7 @@ import '../../domain/entities/motels_entity.dart';
 import 'suites_model.dart';
 
 class MotelsModel extends Equatable {
-  final String? fantasy;
+  final String? nameFantasy;
   final String? logo;
   final String? neighborhood;
   final double? distance;
@@ -14,7 +14,7 @@ class MotelsModel extends Equatable {
   final double? media;
 
   const MotelsModel({
-    this.fantasy,
+    this.nameFantasy,
     this.logo,
     this.neighborhood,
     this.distance,
@@ -25,7 +25,7 @@ class MotelsModel extends Equatable {
   });
 
   factory MotelsModel.fromJson(Map<String, dynamic> json) => MotelsModel(
-        fantasy: json['fantasia'] ?? 'Sem nome',
+        nameFantasy: json['fantasia'] ?? 'Sem nome',
         logo: json['logo'] ?? 'sem logo',
         neighborhood: json['bairro'] ?? '',
         distance: json['distancia'] ?? 0.0,
@@ -36,7 +36,7 @@ class MotelsModel extends Equatable {
       );
 
   MotelsEntity toEntity() => MotelsEntity(
-        fantasy: fantasy,
+        nameFantasy: nameFantasy,
         logo: logo,
         neighborhood: neighborhood,
         distance: distance,
@@ -48,7 +48,7 @@ class MotelsModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        fantasy,
+        nameFantasy,
         logo,
         neighborhood,
         distance,

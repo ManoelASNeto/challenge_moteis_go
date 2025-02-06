@@ -5,7 +5,7 @@ import 'package:challenge_moteis_go/features/goNow/domain/entities/data_entity.d
 class ResultEntity extends Equatable {
   final bool? success;
   final DataEntity? data;
-  final List<Null>? message;
+  final List<String>? message;
   const ResultEntity({
     this.success,
     this.data,
