@@ -7,7 +7,7 @@ class DataEntity extends Equatable {
   final int? quantityPerPage;
   final int? totalSuites;
   final int? totalMotels;
-  final int? ray;
+  final int? radius;
   final int? maxPages;
   final List<MotelsEntity>? motels;
 
@@ -16,7 +16,7 @@ class DataEntity extends Equatable {
     this.quantityPerPage,
     this.totalSuites,
     this.totalMotels,
-    this.ray,
+    this.radius,
     this.maxPages,
     this.motels,
   });
@@ -27,7 +27,7 @@ class DataEntity extends Equatable {
         quantityPerPage,
         totalSuites,
         totalMotels,
-        ray,
+        radius,
         maxPages,
         motels,
       ];

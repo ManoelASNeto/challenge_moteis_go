@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'suites_entity.dart';
 
 class MotelsEntity extends Equatable {
-  final String? fantasy;
+  final String? nameFantasy;
   final String? logo;
   final String? neighborhood;
   final double? distance;
@@ -13,7 +13,7 @@ class MotelsEntity extends Equatable {
   final double? media;
 
   const MotelsEntity({
-    this.fantasy,
+    this.nameFantasy,
     this.logo,
     this.neighborhood,
     this.distance,
@@ -25,7 +25,7 @@ class MotelsEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        fantasy,
+        nameFantasy,
         logo,
         neighborhood,
         distance,

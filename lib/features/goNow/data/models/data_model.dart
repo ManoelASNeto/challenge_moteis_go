@@ -8,7 +8,7 @@ class DataModel extends Equatable {
   final int? quantityPerPage;
   final int? totalSuites;
   final int? totalMotels;
-  final int? ray;
+  final int? radius;
   final int? maxPages;
   final List<MotelsModel>? motels;
 
@@ -17,7 +17,7 @@ class DataModel extends Equatable {
     this.quantityPerPage,
     this.totalSuites,
     this.totalMotels,
-    this.ray,
+    this.radius,
     this.maxPages,
     this.motels,
   });
@@ -27,7 +27,7 @@ class DataModel extends Equatable {
         quantityPerPage: json['qtdPorPagina'] ?? 0,
         totalSuites: json['totalSuites'] ?? 0,
         totalMotels: json['totalMoteis'] ?? 0,
-        ray: json['raio'] ?? 0,
+        radius: json['raio'] ?? 0,
         maxPages: json['maxPaginas'] ?? 0,
         motels: (json['moteis'] as List?)?.map((e) => MotelsModel.fromJson(e)).toList(),
       );
@@ -37,7 +37,7 @@ class DataModel extends Equatable {
         quantityPerPage: quantityPerPage,
         totalSuites: totalSuites,
         totalMotels: totalMotels,
-        ray: ray,
+        radius: radius,
         maxPages: maxPages,
         motels: motels?.map((motel) => motel.toEntity()).toList(),
       );
@@ -47,7 +47,7 @@ class DataModel extends Equatable {
         quantityPerPage,
         totalSuites,
         totalMotels,
-        ray,
+        radius,
         maxPages,
         motels,
       ];
