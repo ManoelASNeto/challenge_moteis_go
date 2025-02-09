@@ -28,7 +28,7 @@ class DataModel extends Equatable {
         totalSuites: json['totalSuites'] ?? 0,
         totalMotels: json['totalMoteis'] ?? 0,
         radius: json['raio'] ?? 0,
-        maxPages: json['maxPaginas'] ?? 0,
+        maxPages: (json['maxPaginas'] as num?)?.toInt(),
         motels: (json['moteis'] as List?)?.map((e) => MotelsModel.fromJson(e)).toList(),
       );
 

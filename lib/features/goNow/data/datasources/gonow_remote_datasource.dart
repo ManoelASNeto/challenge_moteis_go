@@ -1,5 +1,5 @@
+import 'package:challenge_moteis_go/core/http_client/http_client.dart';
 import '../../../../core/http_client/endpoints.dart';
-import '../../../../core/http_client/http_client.dart';
 import '../models/result_model.dart';
 
 abstract class GonowRemoteDatasource {

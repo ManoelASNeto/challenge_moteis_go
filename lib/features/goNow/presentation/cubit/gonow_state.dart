@@ -8,3 +8,19 @@ abstract class GonowState extends Equatable {
 }
 
 class GonowInitial extends GonowState {}
+
+class GonowLoading extends GonowState {}
+
+class GonowLoaded extends GonowState {
+  final ResultEntity resultEntity;
+  const GonowLoaded({
+    required this.resultEntity,
+  });
+}
+
+class GonowError extends GonowState {
+  final String? msgError;
+  const GonowError({
+    this.msgError,
+  });
+}
