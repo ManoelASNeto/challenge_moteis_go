@@ -21,7 +21,9 @@ class Myapp extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = sl.sl<GonowCubit>();
     return MaterialApp(
-      theme: ThemeData(scaffoldBackgroundColor: Colors.grey[150]),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.grey[150],
+      ),
       onGenerateRoute: _router.generateRoutes,
       initialRoute: Routes.homePage,
       home: BlocProvider(

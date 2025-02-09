@@ -1,3 +1,4 @@
+import 'package:challenge_moteis_go/core/routes/routes.dart';
 import 'package:challenge_moteis_go/core/ui/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -140,27 +141,34 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(15),
                                         ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.circular(15),
-                                              child: Image.network(
-                                                suite.photos?.first ?? 'Sem foto',
-                                                height: 200,
-                                                width: 320,
-                                                fit: BoxFit.cover,
+                                        child: GestureDetector(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(15),
+                                                child: Image.network(
+                                                  suite.photos?.first ?? 'Sem foto',
+                                                  height: 200,
+                                                  width: 320,
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                            Text(
-                                              suite.name ?? 'Suite sem nome',
-                                              style: context.titleStyle,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Text(
+                                                suite.name ?? 'Suite sem nome',
+                                                style: context.titleStyle,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ],
+                                          ),
+                                          onTap: () {
+                                            List<String>? morePhotos = suite.photos;
+                                            Navigator.of(context)
+                                                .pushNamed(Routes.morePhotos, arguments: {'photos': morePhotos});
+                                          },
                                         ),
                                       ),
                                       Container(
