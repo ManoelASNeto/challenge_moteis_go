@@ -1,5 +1,6 @@
+import 'package:challenge_moteis_go/core/dio/dio_client.dart';
+
 import '../../../../core/http_client/endpoints.dart';
-import '../../../../core/http_client/http_client.dart';
 import '../models/result_model.dart';
 
 abstract class GonowRemoteDatasource {
@@ -7,14 +8,13 @@ abstract class GonowRemoteDatasource {
 }
 
 class GonowRemoteDatasourceImpl implements GonowRemoteDatasource {
-  final HttpClient client;
+  final DioClient dioClient;
 
-  GonowRemoteDatasourceImpl({required this.client});
+  GonowRemoteDatasourceImpl({required this.dioClient});
 
   @override
   Future<ResultModel> getGoNow() async {
-    final client = HttpClientImpl();
-    final response = await client.get(endpoint: Endpoints.json);
+    final response = await dioClient.get(endPoint: Endpoints.json);
     return ResultModel.fromJson(response);
   }
 }
