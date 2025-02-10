@@ -17,7 +17,11 @@ class HttpClientImpl implements HttpClient {
       final response = await _client.get(Uri.parse('${Endpoints.url}$endpoint'));
 
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        return json.decode(
+          utf8.decode(
+            response.bodyBytes,
+          ),
+        );
       } else {
         return _handleError(response);
       }

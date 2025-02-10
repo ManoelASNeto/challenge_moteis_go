@@ -1,5 +1,7 @@
-import 'package:challenge_moteis_go/core/routes/routes.dart';
-import 'package:challenge_moteis_go/core/ui/theme_extensions.dart';
+import '../../../../core/routes/routes.dart';
+import '../../../../core/ui/theme_extensions.dart';
+import '../widgets/period_component.dart';
+import '../widgets/suite_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -68,196 +70,130 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(
-              20,
-            ),
-          ),
-        ),
-        child: BlocBuilder<GonowCubit, GonowState>(
-          builder: (context, state) {
-            if (state is GonowLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is GonowLoaded) {
-              return ListView.builder(
-                itemCount: state.resultEntity.data?.motels?.length,
-                itemBuilder: (context, index) {
-                  final motel = state.resultEntity.data?.motels?[index];
-                  return ListTile(
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            ClipOval(
-                              child: Image.network(
-                                motel?.logo ?? 'Sem logotipo',
-                                width: 50,
-                                height: 50,
-                              ),
+      body: BlocBuilder<GonowCubit, GonowState>(
+        builder: (context, state) {
+          if (state is GonowLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is GonowLoaded) {
+            return ListView.builder(
+              itemCount: state.resultEntity.data?.motels?.length,
+              itemBuilder: (context, index) {
+                final motel = state.resultEntity.data?.motels?[index];
+                return ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        spacing: 10,
+                        children: [
+                          ClipOval(
+                            child: Image.network(
+                              motel?.logo ?? 'Sem logotipo',
+                              width: 50,
+                              height: 50,
                             ),
-                            Text(motel?.nameFantasy ?? '',
-                                style: context.titleStyle.copyWith(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                          ],
-                        ),
-                        Text(
-                          '${motel?.distance}km - ${motel?.neighborhood}',
-                          style: context.titleStyle.copyWith(
-                            fontSize: 15,
                           ),
-                        ),
-                        Text(
-                          '${motel?.quantityReviews} avaliações',
-                          style: context.titleStyle.copyWith(
-                            fontSize: 15,
+                          Text(
+                            motel?.nameFantasy ?? '',
+                            style: context.titleStyle.copyWith(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    subtitle: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height,
+                        ],
                       ),
-                      child: ListView(
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        '${motel?.distance}km - ${motel?.neighborhood}',
+                        style: context.titleStyle.copyWith(
+                          fontSize: 15,
+                        ),
+                      ),
+                      Text(
+                        '${motel?.quantityReviews} avaliações',
+                        style: context.titleStyle.copyWith(
+                          fontSize: 15,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                  subtitle: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height,
+                    ),
+                    child: PageView.builder(
                         scrollDirection: Axis.horizontal,
-                        children: motel?.suites?.map(
-                              (suite) {
-                                return SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(
-                                          vertical: 5,
-                                          horizontal: 5,
-                                        ),
-                                        padding: EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(15),
-                                        ),
-                                        child: GestureDetector(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.circular(15),
-                                                child: Image.network(
-                                                  suite.photos?.first ?? 'Sem foto',
-                                                  height: 200,
-                                                  width: 320,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 8,
-                                              ),
-                                              Text(
-                                                suite.name ?? 'Suite sem nome',
-                                                style: context.titleStyle,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ],
-                                          ),
-                                          onTap: () {
-                                            List<String>? morePhotos = suite.photos;
-                                            Navigator.of(context)
-                                                .pushNamed(Routes.morePhotos, arguments: {'photos': morePhotos});
-                                          },
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 320,
-                                        margin: const EdgeInsets.symmetric(
-                                          vertical: 5,
-                                          horizontal: 5,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(15),
-                                        ),
-                                        child: Row(
-                                          children: suite.categoryItens?.take(6).map((category) {
-                                                return Image.network(
-                                                  '${category.icon}',
-                                                  height: 50,
-                                                  width: 50,
-                                                  fit: BoxFit.contain,
-                                                );
-                                              }).toList() ??
-                                              [],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 320,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: suite.periods?.map(
-                                                (period) {
-                                                  return Container(
-                                                    constraints: BoxConstraints(maxWidth: 300),
-                                                    margin: const EdgeInsets.symmetric(
-                                                      vertical: 5,
-                                                      horizontal: 5,
-                                                    ),
-                                                    padding: EdgeInsets.all(20),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius: BorderRadius.circular(15),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                              '${period.formattedTime}',
-                                                              style: context.titleStyle,
-                                                            ),
-                                                            Text(
-                                                              'R\$ ${period.price?.toStringAsFixed(2).replaceAll('.', ',')}',
-                                                              style: context.titleStyle,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Align(
-                                                            alignment: AlignmentDirectional.centerEnd,
-                                                            child: IconButton(
-                                                                onPressed: () {}, icon: Icon(Icons.chevron_right)))
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                              ).toList() ??
-                                              [
-                                                Text('Nenhum periodo disponivel'),
-                                              ],
-                                        ),
-                                      ),
-                                    ],
+                        itemCount: motel?.suites?.length,
+                        itemBuilder: (context, index) {
+                          var suite = motel?.suites?[index];
+                          return SingleChildScrollView(
+                            child: Column(
+                              spacing: 10,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SuiteComponent(
+                                  stringImage: suite?.photos?.first ?? 'Sem foto',
+                                  stringName: suite?.name ?? 'Suite sem nome',
+                                  onTap: () {
+                                    List<String>? morePhotos = suite?.photos;
+                                    Navigator.of(context).pushNamed(
+                                      Routes.morePhotos,
+                                      arguments: {'photos': morePhotos},
+                                    );
+                                  },
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                );
-                              },
-                            ).toList() ??
-                            [],
-                      ),
-                    ),
-                  );
-                },
-              );
-            } else if (state is GonowError) {
-              return Center(child: Text('Erro: ${state.msgError}'));
-            }
-            return Container();
-          },
-        ),
+                                  child: Row(
+                                    children: suite?.categoryItens?.take(6).map((category) {
+                                          return Image.network(
+                                            '${category.icon}',
+                                            height: 50,
+                                            width: 50,
+                                            fit: BoxFit.contain,
+                                          );
+                                        }).toList() ??
+                                        [],
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: suite?.periods?.map(
+                                        (period) {
+                                          return PeriodComponent(
+                                            formattedTime: period.formattedTime ?? 'Horário indisponível',
+                                            price: period.price ?? 0.0,
+                                            onPressed: () {},
+                                          );
+                                        },
+                                      ).toList() ??
+                                      [
+                                        const Text('Nenhum período disponível'),
+                                      ],
+                                )
+                              ],
+                            ),
+                          );
+                        }),
+                  ),
+                );
+              },
+            );
+          } else if (state is GonowError) {
+            return Center(child: Text('Erro: ${state.msgError}'));
+          }
+          return Container();
+        },
       ),
     );
   }
