@@ -18,8 +18,8 @@ class PeriodsModel extends Equatable {
   factory PeriodsModel.fromJson(Map<String, dynamic> json) => PeriodsModel(
         formattedTime: json['tempoFormatado'] ?? '',
         time: json['tempo'] ?? '',
-        price: json['valor'] ?? '',
-        totalPrice: json['valorTotal'] ?? '',
+        price: (json['valor'] as num?)?.toDouble(),
+        totalPrice: (json['valorTotal'] as num?)?.toDouble(),
         courtesy: json['temCortesia'] ?? false,
       );
 

@@ -1,11 +1,12 @@
-import '../../../../core/routes/routes.dart';
-import '../../../../core/ui/theme_extensions.dart';
-import '../widgets/period_component.dart';
-import '../widgets/suite_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/routes/routes.dart';
+import '../../../../core/ui/apps_strings.dart';
+import '../../../../core/ui/theme_extensions.dart';
 import '../cubit/gonow_cubit.dart';
+import '../widgets/period_component.dart';
+import '../widgets/suite_component.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,9 +46,9 @@ class _HomePageState extends State<HomePage> {
               });
             },
             children: [
-              Text('Ir agora', style: TextStyle(color: _selectedIndex == 0 ? Colors.black : Colors.white)),
+              Text(AppsStrings.now, style: TextStyle(color: _selectedIndex == 0 ? Colors.black : Colors.white)),
               Text(
-                'Ir outro dia',
+                AppsStrings.later,
                 style: TextStyle(color: _selectedIndex == 1 ? Colors.black : Colors.white),
               ),
             ],
@@ -88,13 +89,13 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           ClipOval(
                             child: Image.network(
-                              motel?.logo ?? 'Sem logotipo',
+                              motel?.logo ?? AppsStrings.noLogo,
                               width: 50,
                               height: 50,
                             ),
                           ),
                           Text(
-                            motel?.nameFantasy ?? '',
+                            motel?.nameFantasy ?? AppsStrings.noName,
                             style: context.titleStyle.copyWith(
                               fontSize: 25,
                               fontWeight: FontWeight.w600,
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Text(
-                        '${motel?.quantityReviews} avaliações',
+                        '${motel?.quantityReviews} ${AppsStrings.reviews}',
                         style: context.titleStyle.copyWith(
                           fontSize: 15,
                         ),
@@ -137,8 +138,8 @@ class _HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SuiteComponent(
-                                  stringImage: suite?.photos?.first ?? 'Sem foto',
-                                  stringName: suite?.name ?? 'Suite sem nome',
+                                  stringImage: suite?.photos?.first ?? AppsStrings.noPhoto,
+                                  stringName: suite?.name ?? AppsStrings.unnamedSuite,
                                   onTap: () {
                                     List<String>? morePhotos = suite?.photos;
                                     Navigator.of(context).pushNamed(
@@ -171,14 +172,14 @@ class _HomePageState extends State<HomePage> {
                                   children: suite?.periods?.map(
                                         (period) {
                                           return PeriodComponent(
-                                            formattedTime: period.formattedTime ?? 'Horário indisponível',
+                                            formattedTime: period.formattedTime ?? AppsStrings.noHours,
                                             price: period.price ?? 0.0,
                                             onPressed: () {},
                                           );
                                         },
                                       ).toList() ??
                                       [
-                                        const Text('Nenhum período disponível'),
+                                        const Text(AppsStrings.noPeriod),
                                       ],
                                 )
                               ],
@@ -190,7 +191,7 @@ class _HomePageState extends State<HomePage> {
               },
             );
           } else if (state is GonowError) {
-            return Center(child: Text('Erro: ${state.msgError}'));
+            return Center(child: Text('${AppsStrings.error} ${state.msgError}'));
           }
           return Container();
         },
