@@ -8,6 +8,7 @@ import 'injection_container.dart' as sl;
 import 'package:flutter/material.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await sl.init();
   runApp(Myapp());
 }

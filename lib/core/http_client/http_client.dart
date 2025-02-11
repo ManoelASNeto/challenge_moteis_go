@@ -1,3 +1,6 @@
+import 'package:challenge_moteis_go/core/exception/network_exception.dart';
+import 'package:challenge_moteis_go/core/ui/apps_strings.dart';
+
 import 'endpoints.dart';
 import '../../injection_container.dart';
 import 'package:http/http.dart' as http;
@@ -23,27 +26,35 @@ class HttpClientImpl implements HttpClient {
           ),
         );
       } else {
-        return _handleError(response);
+        return _handleResponse(response);
       }
     } catch (e) {
-      return 'Connection Error: $e';
+      return '${AppsStrings.connectionError} $e';
     }
   }
 
-  dynamic _handleError(http.Response response) {
+  dynamic _handleResponse(http.Response response) {
     switch (response.statusCode) {
+      case 200:
+        return json.decode(utf8.decode(response.bodyBytes));
       case 400:
-        return 'Bad Request: ${response.body}';
+        throw NetworkException(message: '${AppsStrings.invalidRequest} ${response.body}');
       case 401:
-        return 'Unauthorized';
+        throw NetworkException(message: AppsStrings.unauthorized);
       case 403:
-        return 'Forbidden';
+        throw NetworkException(message: AppsStrings.accessProhibited);
       case 404:
-        return 'Not Found';
+        throw NetworkException(message: AppsStrings.resourceNotFound);
+      case 429:
+        throw NetworkException(message: AppsStrings.manyRequests);
       case 500:
-        return 'Internal Server Error';
+        throw NetworkException(message: AppsStrings.internalError);
+      case 502:
+        throw NetworkException(message: AppsStrings.badGateway);
+      case 503:
+        throw NetworkException(message: AppsStrings.serviceUnavailable);
       default:
-        return 'Unexpected Error: ${response.statusCode}';
+        throw NetworkException(message: '${AppsStrings.unexpectedError} ${response.statusCode}');
     }
   }
 }

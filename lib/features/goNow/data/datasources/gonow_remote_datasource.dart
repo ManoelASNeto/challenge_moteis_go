@@ -13,7 +13,6 @@ class GonowRemoteDatasourceImpl implements GonowRemoteDatasource {
 
   @override
   Future<ResultModel> getGoNow() async {
-    final client = HttpClientImpl();
     final response = await client.get(endpoint: Endpoints.json);
     return ResultModel.fromJson(response);
   }
